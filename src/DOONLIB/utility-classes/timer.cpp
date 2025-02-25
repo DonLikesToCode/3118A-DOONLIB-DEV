@@ -1,0 +1,43 @@
+#pragma once
+
+#include "DOONLIB/central/doon_main.h"
+#include "DOONLIB/utility-classes/timer.h"
+
+Timer::Timer(std::string timerName)
+    : startTime(std::chrono::steady_clock::now())
+    , endTime(startTime)
+    , prevUpdateTime(startTime)
+    , elapsedTime(0)
+    , deltaTime(0)
+    , deltaRate(1)  
+{}
+
+/* clock based */
+
+void Timer::timer_startCount() { startTime = std::chrono::steady_clock::now(); }
+
+void Timer::timer_endCount() { endTime = std::chrono::steady_clock::now(); }
+
+double Timer::timer_getElapsed() { 
+    std::chrono::duration<double> elapsed = endTime - startTime; 
+    return elapsed.count();
+}
+
+/* delta based */
+
+void Timer::timer_startDelta() { prevUpdateTime = std::chrono::steady_clock::now(); }
+
+void Timer::timer_endDelta() {
+    auto curTime = std::chrono::steady_clock::now();
+    std::chrono::duration<double> delta = curTime - prevUpdateTime;
+    deltaTime = delta.count() * deltaRate;
+    prevUpdateTime = curTime;
+}
+
+void Timer::timer_setDeltaRate(double given) { deltaRate = given; }
+
+double Timer::timer_getDelta() {
+    // auto now = std::chrono::steady_clock::now();
+    // deltaTime = std::chrono::duration<double>(now - startTime).count() * deltaRate;
+    return deltaTime;
+}
