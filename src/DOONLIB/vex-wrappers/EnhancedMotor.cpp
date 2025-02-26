@@ -1,4 +1,4 @@
-#include "DOONLIB/central/api.h"
+#include "DOONLIB/vex-wrappers/EnhancedMotor.h"
 
 EnhancedMotor::EnhancedMotor(int port_num, vex::gearSetting gearType)
     : vex::motor(port_num, gearType, isForward)

@@ -11,6 +11,7 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
+#include "DOONLIB/central/doon_api.h"
 
 using namespace vex;
 
@@ -19,7 +20,7 @@ competition Competition;
 void pre_auton(void) { vexcodeInit(); }
 
 void HandleInput() {
-
+  //test_motor.setCmd(5);
 
 
 }
