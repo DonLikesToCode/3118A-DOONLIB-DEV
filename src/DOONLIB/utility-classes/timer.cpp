@@ -1,5 +1,3 @@
-#pragma once
-
 #include "DOONLIB/utility-classes/timer.h"
 
 Timer::Timer(std::string timerName)

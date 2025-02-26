@@ -11,6 +11,12 @@ SRC_C  = $(wildcard src/*.cpp)
 SRC_C += $(wildcard src/*.c)
 SRC_C += $(wildcard src/*/*.cpp) 
 SRC_C += $(wildcard src/*/*.c)
+SRC_C += $(wildcard src/*/*/*.cpp) 
+SRC_C += $(wildcard src/*/*/*.c)
+SRC_C += $(wildcard src/*/*/*/*.cpp) 
+SRC_C += $(wildcard src/*/*/*/*.c)
+
+CXX_FLAGS += -I./include -I/DOONLIB
 
 OBJ = $(addprefix $(BUILD)/, $(addsuffix .o, $(basename $(SRC_C))) )
 

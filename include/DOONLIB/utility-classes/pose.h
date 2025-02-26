@@ -14,8 +14,8 @@ class Pose {
 
         Pose(std::string poseName);
 
-        double setPose(double x, double y, double theta);
-        double getPose();
+        void setPose(double x, double y, double theta);
+        std::vector<double> getPose();
 
         double pose_getX();
         double pose_getY();

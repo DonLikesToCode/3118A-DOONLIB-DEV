@@ -60,6 +60,6 @@ class EnhancedMotor : public vex::motor {
         void setEncoderPosition(double given); //degrees
         void resetEncoderPosition(); //reset to 0
 
-        void writeAll(void);
+        void writeCommands(void);
 
 };

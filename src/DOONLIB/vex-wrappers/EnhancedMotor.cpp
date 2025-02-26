@@ -26,7 +26,7 @@ void EnhancedMotor::resetEncoderPosition() {
     this->resetPosition();
 }
 
-void EnhancedMotor::writeAll(void) { 
+void EnhancedMotor::writeCommands(void) { 
     if (controlMode == DUTY) {
         //motor_cmd is treated as the percentage or literal cmd to spin the motors at.
         this->spin(vex::directionType::fwd, motor_cmd, vex::voltageUnits::volt); 
