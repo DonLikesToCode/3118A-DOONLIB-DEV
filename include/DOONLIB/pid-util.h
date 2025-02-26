@@ -24,17 +24,17 @@ class PID {
 
         PID(double cmd, double tolerance, bool slew = false, double dt = 10);
 
-        void pid_setConstants(double sent_kp, double sent_ki, double send_kd);
-        void pid_resetCalculationValues();
-        void pid_setIntegralMax(double given);
+        void setConstants(double sent_kp, double sent_ki, double send_kd);
+        void resetCalculationValues();
+        void setIntegralMax(double given);
 
-        bool pid_isComplete();
+        bool isComplete();
         
-        double pid_getP();
-        double pid_getI();
-        double pid_getD();
-        double pid_getError();
+        double getP();
+        double getI();
+        double getD();
+        double getError();
 
-        double pid_calculate(double given_error);
+        double calculate(double given_error);
 
 };

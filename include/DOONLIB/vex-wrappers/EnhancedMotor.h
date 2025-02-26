@@ -18,6 +18,7 @@ class EnhancedMotor : public vex::motor {
         };
         
         enum MOTOR_MODE controlMode{DUTY};
+        PID motorPID;
         
         // static auto mapToPort(int port) {
         //     switch(port) {

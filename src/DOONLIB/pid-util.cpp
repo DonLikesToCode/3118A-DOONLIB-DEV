@@ -1,4 +1,4 @@
-#include "DOONLIB/central/doon_main.h"
+#include "DOONLIB/central/api.h"
 
 PID::PID(double cmd, double tolerance, bool slew, double dt)
     : controlled_cmd(cmd)
@@ -8,16 +8,15 @@ PID::PID(double cmd, double tolerance, bool slew, double dt)
     , kD(0)
     , given_dt(dt)
 {}
-
-void PID::pid_setConstants(double sentP, double sentI, double sentD) {
+void PID::setConstants(double sentP, double sentI, double sentD) {
     kP = sentP; 
     kI = sentI; 
     kD = sentD;
 }
 
-void PID::pid_setIntegralMax(double given) { maxIntegral = given; }
+void PID::setIntegralMax(double given) { maxIntegral = given; }
 
-void PID::pid_resetCalculationValues() {
+void PID::resetCalculationValues() {
     integral = 0;
     derivative = 0;
     error = 0;
@@ -25,14 +24,14 @@ void PID::pid_resetCalculationValues() {
     controlled_cmd = 0;
 }
 
-bool PID::pid_isComplete() { return fabs(error) < settleTolerance; }
+bool PID::isComplete() { return fabs(error) < settleTolerance; }
 
-double PID::pid_getP() { return kP; }
-double PID::pid_getI() { return kI; }
-double PID::pid_getD() { return kD; }
-double PID::pid_getError() { return error; }
+double PID::getP() { return kP; }
+double PID::getI() { return kI; }
+double PID::getD() { return kD; }
+double PID::getError() { return error; }
 
-double PID::pid_calculate(double cmd) {
+double PID::calculate(double cmd) {
     static Timer dt_pid("delta-time-pid");
     dt_pid.timer_setDeltaRate(given_dt);
     dt_pid.timer_startDelta();
@@ -47,13 +46,13 @@ double PID::pid_calculate(double cmd) {
     //     integral += error * dt; 
     // }
 
-    if (fabs(integral + error * dt) < maxIntegral) { 
-        integral += error * dt; 
-    } else { 
-        integral = maxIntegral * doon_utils::sign(integral); 
-    }
+    // if (fabs(integral + error * dt) < maxIntegral) { 
+    //     integral += error * dt; 
+    // } else { 
+    //     integral = maxIntegral * doon_utils::sign(integral); 
+    // }
     
-    integral += error * dt; //kI
+    integral += error * dt;
     integral = doon_utils::clamp(integral, -maxIntegral, maxIntegral);
 
     derivative = (error-preverror) / dt; //kD
