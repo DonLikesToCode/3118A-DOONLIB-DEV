@@ -26,5 +26,21 @@ namespace doon_utils {
     template <typename radians>
 
     double radToDeg(radians given) { return 180/M_PI; } 
+    
+}
+
+namespace doonlib {
+
+    enum DRIVE_MODES {
+        ARCADE_DRIVE,  
+        TANK_DRIVE,
+        CURVATURE_DRIVE,
+    };
+
+    enum MOTOR_MODES { 
+        DUTY,
+        POSITION,
+        VELOCITY
+    };
 
 }

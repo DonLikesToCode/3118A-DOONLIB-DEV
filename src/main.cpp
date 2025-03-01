@@ -20,15 +20,22 @@ competition Competition;
 
 void pre_auton(void) { vexcodeInit(); }
 
+void Intialize() {
+
+  
+
+}
+
 void HandleInput() {
 
-  test_motor.setCmd(100);
+  
 
 }
 
 void UpdateRobot() { 
 
-  /* Put anything that is in constant update (i.e input, writing command to motors) */
+  /* Anything that needs to be constantly updated goes here (i.e input, writing command to motors) */
+  /* Please do also ensure that your subsystem periodic functions run here */
 
 }
 

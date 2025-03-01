@@ -4,6 +4,7 @@
 using namespace vex;
 
 extern brain Brain;
+extern controller Controller;
 
 /* Set Device Configurations Below */
 

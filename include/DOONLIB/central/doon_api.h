@@ -7,5 +7,4 @@
 #include "DOONLIB/utility-classes/timer.h"
 #include "DOONLIB/utility-classes/vector.h"
 
-#include "DOONLIB/vex-wrappers/EnhancedMotor.h"
-#include "DOONLIB/vex-wrappers/EnhancedMotorGroup.h"
+#include "DOONLIB/vex-wrappers/EnhancedMotors.h"
