@@ -15,8 +15,8 @@ EnhancedMotor::EnhancedMotor(int port_num, vex::gearSetting gearType, doonlib::M
 
 void EnhancedMotor::setMode(doonlib::MOTOR_MODES given) { controlMode = given; }
 
-void EnhancedMotor::setCmd(double cmd) { motor_cmd = cmd; }
-double EnhancedMotor::getCmd() { return motor_cmd; }
+// void EnhancedMotor::setCommand(double cmd) { motor_cmd = cmd; }
+double EnhancedMotor::getCommand() { return motor_cmd; }
 
 double EnhancedMotor::getEncoderPosition(bool isRadians) { 
     if (isRadians) { return doon_utils::degToRad(this->position(vex::degrees)); } 
@@ -31,7 +31,8 @@ void EnhancedMotor::resetEncoderPosition() {
     this->resetPosition();
 }
 
-void EnhancedMotor::writeCommands(void) { 
+void EnhancedMotor::writeCommand(double cmd) {
+    motor_cmd = cmd;
     if (controlMode == doonlib::MOTOR_MODES::DUTY) {
         //motor_cmd is treated as the percentage or literal cmd to spin the motors at.
         this->spin(vex::directionType::fwd, motor_cmd, vex::voltageUnits::volt); 
@@ -95,11 +96,12 @@ void EnhancedMotorGroup::resetEncoderPosition() {
     }
 }
 
-void EnhancedMotorGroup::setCmd(double cmd) { motor_cmd = cmd; }
+// void EnhancedMotorGroup::setCommand(double cmd) { motor_cmd = cmd; }
 
-double EnhancedMotorGroup::getCmd() { return motor_cmd; }
+double EnhancedMotorGroup::getCommand() { return motor_cmd; }
 
-void EnhancedMotorGroup::writeCommands(void) { 
+void EnhancedMotorGroup::writeCommand(double cmd) { 
+    motor_cmd = cmd;
     for (auto& motor : currentMotors) {
         if (motor) {
             if (controlMode == doonlib::MOTOR_MODES::DUTY) {

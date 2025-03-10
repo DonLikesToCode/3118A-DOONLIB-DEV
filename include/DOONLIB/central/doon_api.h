@@ -8,3 +8,5 @@
 #include "DOONLIB/utility-classes/vector.h"
 
 #include "DOONLIB/vex-wrappers/EnhancedMotors.h"
+
+#include "DOONLIB/central/chassis.h"

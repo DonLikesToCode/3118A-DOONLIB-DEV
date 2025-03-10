@@ -2,6 +2,7 @@
 
 #include "vex.h"
 #include "DOONLIB/motion-utils.hpp"
+#include "DOONLIB/vex-wrappers/EnhancedMotors.h"
 
 class DriveChassis {
 
@@ -11,8 +12,13 @@ class DriveChassis {
 
         vex::controller& Controller;
 
-        vex::motor_group& leftDT;
-        vex::motor_group& rightDT;
+        EnhancedMotorGroup& leftDT;
+        EnhancedMotorGroup& rightDT;
+
+        /* Odometry Configurations */
+        vex::rotation* horizontalTracker;
+        vex::rotation* verticalTracker;
+        // vex::rotation& verticalTracker;
 
         double LeftAxisInput;
         double RightAxisInput;
@@ -26,12 +32,20 @@ class DriveChassis {
 
         void CurvatureDrive();
 
+        /* Odometry */
+        void calculateOdom_line(void); // line approximation
+        void calculateOdom_arc(void); // arc approximation
+
+
     public:
 
         DriveChassis(doonlib::DRIVE_MODES mode, vex::controller& master,
-                     vex::motor_group& LeftMotors, vex::motor_group& RightMotors);
+                     EnhancedMotorGroup& LeftMotors, EnhancedMotorGroup& RightMotors);
 
         /* Command Drive */
         void controlChassis(double LeftAxis, double RightAxis);
 
+        /* Odometry */
+        
+        void enableOdom(bool enable);
 };

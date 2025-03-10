@@ -4,8 +4,9 @@
 using namespace vex;
 
 extern brain Brain;
-extern controller Controller;
+extern controller Controller1;
 
+extern EnhancedMotor test_motor;
 /* Set Device Configurations Below */
 
 void vexcodeInit(void);

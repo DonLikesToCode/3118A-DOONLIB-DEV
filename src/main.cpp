@@ -11,8 +11,8 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
+#include "robot-config.h"
 #include "DOONLIB/central/doon_api.h"
-#include "devices.hpp"
 
 using namespace vex;
 
@@ -20,23 +20,27 @@ competition Competition;
 
 void pre_auton(void) { vexcodeInit(); }
 
+
+
 void Intialize() {
 
-  
+  /* Initialize any robot configurations required before teleop here */
 
 }
 
 void HandleInput() {
 
-  
+  /* Any vex controller logic should be put here */
 
 }
 
-void UpdateRobot() { 
+void Periodic() { 
 
   /* Anything that needs to be constantly updated goes here (i.e input, writing command to motors) */
   /* Please do also ensure that your subsystem periodic functions run here */
 
+
+  
 }
 
 void autonomous(void) {
@@ -46,7 +50,7 @@ void autonomous(void) {
 void usercontrol(void) {
   while (true) {
     HandleInput();
-    UpdateRobot();
+    Periodic();
 
     wait(15, msec);
   }
@@ -55,6 +59,8 @@ void usercontrol(void) {
 int main() {
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
+
+  Intialize();
 
   pre_auton();
 

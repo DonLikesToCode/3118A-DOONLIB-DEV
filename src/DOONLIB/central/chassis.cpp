@@ -1,8 +1,7 @@
-#include "DOONLIB/central/doon_api.h"
 #include "DOONLIB/central/chassis.h"
 
 DriveChassis::DriveChassis(doonlib::DRIVE_MODES mode, vex::controller& master,
-                           vex::motor_group& LeftMotors, vex::motor_group& RightMotors)
+                    EnhancedMotorGroup& LeftMotors, EnhancedMotorGroup& RightMotors)
     : driveMode(mode)
     , Controller(master)
     , leftDT(LeftMotors)
@@ -16,16 +15,16 @@ void DriveChassis::ArcadeDrive() {
     double motor_leftVel = LeftAxisInput + RightAxisInput;
     double motor_rightVel = LeftAxisInput - RightAxisInput;
 
-    leftDT.spin(vex::directionType::fwd, motor_leftVel, vex::percentUnits::pct);
-    rightDT.spin(vex::directionType::fwd, motor_rightVel, vex::percentUnits::pct);
+    leftDT.setCmd(motor_leftVel);
+    rightDT.setCmd(motor_rightVel);
 }
 
 void DriveChassis::TankDrive() {
     LeftAxisInput = Controller.Axis3.position(vex::percentUnits::pct);
     RightAxisInput = Controller.Axis2.position(vex::percentUnits::pct);
 
-    leftDT.spin(vex::directionType::fwd, LeftAxisInput, vex::percentUnits::pct);
-    rightDT.spin(vex::directionType::fwd, RightAxisInput, vex::percentUnits::pct);
+    leftDT.setCmd(LeftAxisInput);
+    rightDT.setCmd(RightAxisInput);
 }
 
 void DriveChassis::CurvatureDrive() {

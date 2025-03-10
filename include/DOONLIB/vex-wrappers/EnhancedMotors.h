@@ -26,14 +26,14 @@ class EnhancedMotor : public vex::motor {
 
         void setMode(doonlib::MOTOR_MODES given);
         
-        void setCmd(double cmd);
-        double getCmd();
+        // void setCommand(double cmd);
+        double getCommand();
 
         double getEncoderPosition(bool isRadians); //degrees/radians
         void setEncoderPosition(double given); //degrees
         void resetEncoderPosition(); //reset to 0
 
-        void writeCommands(void);
+        void writeCommand(double cmd);
 
 };
 
@@ -58,9 +58,9 @@ class EnhancedMotorGroup {
         void setEncoderPosition(double given);
         void resetEncoderPosition();
 
-        void setCmd(double cmd);
-        double getCmd();
+        // void setCommand(double cmd);
+        double getCommand();
 
-        void writeCommands(void);
+        void writeCommand(double cmd);
 
 };
