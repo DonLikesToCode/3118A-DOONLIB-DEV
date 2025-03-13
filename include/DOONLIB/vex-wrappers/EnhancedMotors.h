@@ -11,11 +11,13 @@ class EnhancedMotor : public vex::motor {
     private:
 
         double motor_cmd;
-        double isForward;
+        double isReverse;
         
         enum doonlib::MOTOR_MODES controlMode{doonlib::MOTOR_MODES::DUTY};
 
         PID motorPID;
+
+        double mtr_kP{1}, mtr_kI{0}, mtr_kD{0};
 
     public:
 
@@ -34,6 +36,14 @@ class EnhancedMotor : public vex::motor {
         void resetEncoderPosition(); //reset to 0
 
         void writeCommand(double cmd);
+
+        // pid configs
+
+        void setP(double kP);
+        void setI(double kI);
+        void setD(double kD);
+    
+        void setMotorPIDConstants(double kP, double kI, double kD);
 
 };
 
@@ -62,5 +72,13 @@ class EnhancedMotorGroup {
         double getCommand();
 
         void writeCommand(double cmd);
+
+        // pid configs
+
+        void setP(double kP);
+        void setI(double kI);
+        void setD(double kD);
+    
+        void setGroupPIDConstants(double kP, double kI, double kD);
 
 };

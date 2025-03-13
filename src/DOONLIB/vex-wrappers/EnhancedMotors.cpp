@@ -3,14 +3,14 @@
 /* Vex Motor Wrapper */
 
 EnhancedMotor::EnhancedMotor(int port_num, vex::gearSetting gearType, doonlib::MOTOR_MODES motor_mode)
-    : vex::motor(port_num, gearType, isForward)
+    : vex::motor(port_num, gearType, isReverse)
     , controlMode(motor_mode)
     , motor_cmd(0)
-    , isForward(port_num < 0)
+    , isReverse(port_num < 0)
     , motorPID(motor_cmd, 1.5, false, 0.01)
 { 
     // isForward = (port_num > 0);
-    motorPID.setConstants(1, 0, 0);
+    motorPID.setConstants(mtr_kP, mtr_kI, mtr_kD);
 }
 
 void EnhancedMotor::setMode(doonlib::MOTOR_MODES given) { controlMode = given; }
@@ -57,6 +57,16 @@ void EnhancedMotor::writeCommand(double cmd) {
         pidOutput = doon_utils::clamp(pidOutput, -12.0, 12.0);
         this->spin(vex::directionType::fwd, pidOutput, vex::voltageUnits::volt);
     }
+}
+
+void EnhancedMotor::setP(double kP) { mtr_kP = kP; }
+void EnhancedMotor::setI(double kI) { mtr_kI = kI; }
+void EnhancedMotor::setD(double kD) { mtr_kD = kD; }
+
+void EnhancedMotor::setMotorPIDConstants(double kP, double kI, double kD) {
+    mtr_kP = kP;
+    mtr_kI = kI;
+    mtr_kD = kD;
 }
 
 /* Vex Motorgroup Wrapper */
@@ -130,5 +140,29 @@ void EnhancedMotorGroup::writeCommand(double cmd) {
             }
         }
 
+    }
+}
+
+void EnhancedMotorGroup::setP(double kP) { 
+    for (auto& motor : currentMotors) {
+        if (motor) { motor->setP(kP); }
+    }
+}
+
+void EnhancedMotorGroup::setI(double kI) { 
+    for (auto& motor : currentMotors) {
+        if (motor) { motor->setI(kI); }
+    }
+}
+
+void EnhancedMotorGroup::setD(double kD) { 
+    for (auto& motor : currentMotors) {
+        if (motor) { motor->setD(kD); }
+    }
+}
+
+void EnhancedMotorGroup::setGroupPIDConstants(double kP, double kI, double kD) {
+    for (auto&motor : currentMotors) {
+        if (motor) { motor->setMotorPIDConstants(kP, kI, kD); }
     }
 }

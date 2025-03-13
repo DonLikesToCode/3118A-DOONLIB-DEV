@@ -23,6 +23,13 @@ class DriveChassis {
         double LeftAxisInput;
         double RightAxisInput;
 
+        enum ODOM_DRIVE_MODES {
+            RAMSETE,
+            BOOMERANG,
+            RAMPID,
+            PID
+        };
+
     protected:
 
         /* Drive Types */
@@ -46,6 +53,6 @@ class DriveChassis {
         void controlChassis(double LeftAxis, double RightAxis);
 
         /* Odometry */
-        
         void enableOdom(bool enable);
+
 };
