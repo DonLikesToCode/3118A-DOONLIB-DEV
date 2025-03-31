@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vex.h"
+#include "DOONLIB/utility-classes/timer.h"
 
 class PID {
 
@@ -13,6 +14,7 @@ class PID {
         double kP, kI, kD;
         double integral, maxIntegral{0.05*kP}, derivative;
 
+        Timer dt_pid;
         double given_dt;
 
         double error, preverror;

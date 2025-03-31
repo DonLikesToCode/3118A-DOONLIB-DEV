@@ -7,6 +7,5 @@ extern brain Brain;
 extern controller Controller1;
 
 extern EnhancedMotor test_motor;
-/* Set Device Configurations Below */
 
 void vexcodeInit(void);

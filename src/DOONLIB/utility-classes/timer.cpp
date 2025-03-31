@@ -1,8 +1,7 @@
 #include "DOONLIB/utility-classes/timer.h"
 
-Timer::Timer(std::string timerName)
+Timer::Timer()
     : startTime(std::chrono::steady_clock::now())
-    , endTime(startTime)
     , prevUpdateTime(startTime)
     , elapsedTime(0)
     , deltaTime(0)
@@ -26,8 +25,7 @@ void Timer::timer_startDelta() { prevUpdateTime = std::chrono::steady_clock::now
 
 void Timer::timer_endDelta() {
     auto curTime = std::chrono::steady_clock::now();
-    std::chrono::duration<double> delta = curTime - prevUpdateTime;
-    deltaTime = delta.count() * deltaRate;
+    deltaTime = std::chrono::duration<double>(curTime - prevUpdateTime).count() * deltaRate;
     prevUpdateTime = curTime;
 }
 

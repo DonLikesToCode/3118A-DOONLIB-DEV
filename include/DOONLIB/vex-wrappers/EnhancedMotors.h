@@ -18,6 +18,8 @@ class EnhancedMotor : public vex::motor {
         PID motorPID;
 
         double mtr_kP{1}, mtr_kI{0}, mtr_kD{0};
+        
+        double mtr_tolerance{1e-2 + 0.005};
 
     public:
 
@@ -32,10 +34,12 @@ class EnhancedMotor : public vex::motor {
         double getCommand();
 
         double getEncoderPosition(bool isRadians); //degrees/radians
+        double getMotorVelocity();
+
         void setEncoderPosition(double given); //degrees
         void resetEncoderPosition(); //reset to 0
 
-        void writeCommand(double cmd);
+        void set(double cmd);
 
         // pid configs
 
@@ -44,6 +48,8 @@ class EnhancedMotor : public vex::motor {
         void setD(double kD);
     
         void setMotorPIDConstants(double kP, double kI, double kD);
+
+        void setTolerance(double kTol);
 
 };
 
@@ -58,6 +64,8 @@ class EnhancedMotorGroup {
 
         PID motorPID;
 
+        double mtr_tolerance{1e-2 + 0.005};
+
     public:
 
         EnhancedMotorGroup(std::vector<EnhancedMotor*> motors);
@@ -71,7 +79,7 @@ class EnhancedMotorGroup {
         // void setCommand(double cmd);
         double getCommand();
 
-        void writeCommand(double cmd);
+        void set(double cmd);
 
         // pid configs
 
@@ -80,5 +88,7 @@ class EnhancedMotorGroup {
         void setD(double kD);
     
         void setGroupPIDConstants(double kP, double kI, double kD);
+
+        void setTolerance(double kTol);
 
 };

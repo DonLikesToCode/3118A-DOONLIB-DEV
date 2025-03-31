@@ -30,15 +30,17 @@ void Intialize() {
 
 void HandleInput() {
 
-  /* Any vex controller logic should be put here */
+  /* Map your subsystem inputs/buttons here */
 
 }
 
 void Periodic() { 
 
-  /* Anything that needs to be constantly updated goes here (i.e input, writing command to motors) */
-  /* Please do also ensure that your subsystem periodic functions run here */
-
+  /* 
+   * Anything that needs to be constantly updated needs to go under here.
+   * You can also probably map your inputs here, but it's good practice to 
+   * have your inputs separated from your other robot functions (i.e odom).
+  */
 
   
 }

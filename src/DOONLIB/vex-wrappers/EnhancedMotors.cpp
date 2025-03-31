@@ -31,7 +31,7 @@ void EnhancedMotor::resetEncoderPosition() {
     this->resetPosition();
 }
 
-void EnhancedMotor::writeCommand(double cmd) {
+void EnhancedMotor::set(double cmd) {
     motor_cmd = cmd;
     if (controlMode == doonlib::MOTOR_MODES::DUTY) {
         //motor_cmd is treated as the percentage or literal cmd to spin the motors at.
@@ -42,7 +42,7 @@ void EnhancedMotor::writeCommand(double cmd) {
         double currentPosition = this->position(vex::degrees);
         double pidOutput = motorPID.calculate(targetPosition-currentPosition);
 
-        if (fabs(targetPosition-currentPosition) < 2.0) { motorPID.resetCalculationValues(); }
+        if (fabs(targetPosition-currentPosition) < mtr_tolerance) { motorPID.resetCalculationValues(); }
 
         pidOutput = doon_utils::clamp(pidOutput, -12.0, 12.0);
         this->spin(vex::directionType::fwd, pidOutput, vex::voltageUnits::volt);
@@ -52,7 +52,7 @@ void EnhancedMotor::writeCommand(double cmd) {
         double currentVelocity = this->velocity(vex::velocityUnits::rpm);
         double pidOutput = motorPID.calculate(targetVelocity-currentVelocity);
 
-        if (fabs(targetVelocity-currentVelocity) < 2.0) { motorPID.resetCalculationValues(); }
+        if (fabs(targetVelocity-currentVelocity) < 1e-3) { motorPID.resetCalculationValues(); }
 
         pidOutput = doon_utils::clamp(pidOutput, -12.0, 12.0);
         this->spin(vex::directionType::fwd, pidOutput, vex::voltageUnits::volt);
@@ -67,7 +67,11 @@ void EnhancedMotor::setMotorPIDConstants(double kP, double kI, double kD) {
     mtr_kP = kP;
     mtr_kI = kI;
     mtr_kD = kD;
+
+    motorPID.setConstants(mtr_kP, mtr_kI, mtr_kD);
 }
+
+void EnhancedMotor::setTolerance(double kTol) { mtr_tolerance = kTol; }
 
 /* Vex Motorgroup Wrapper */
 
@@ -96,13 +100,13 @@ double EnhancedMotorGroup::getEncoderPosition(bool isRadians) {
 
 void EnhancedMotorGroup::setEncoderPosition(double given) {
     for (auto& motor : currentMotors) { 
-        if (motor) { motor->setPosition(given, vex::degrees); }
+        if (motor) { motor->setEncoderPosition(given); }
     }
 }
 
 void EnhancedMotorGroup::resetEncoderPosition() {
     for (auto& motor : currentMotors) {
-        if (motor) { motor->resetPosition(); }
+        if (motor) { motor->resetEncoderPosition(); }
     }
 }
 
@@ -110,7 +114,7 @@ void EnhancedMotorGroup::resetEncoderPosition() {
 
 double EnhancedMotorGroup::getCommand() { return motor_cmd; }
 
-void EnhancedMotorGroup::writeCommand(double cmd) { 
+void EnhancedMotorGroup::set(double cmd) { 
     motor_cmd = cmd;
     for (auto& motor : currentMotors) {
         if (motor) {
@@ -123,7 +127,7 @@ void EnhancedMotorGroup::writeCommand(double cmd) {
                 double currentPosition = motor->position(vex::degrees);
                 double pidOutput = motorPID.calculate(targetPosition-currentPosition);
         
-                if (fabs(targetPosition-currentPosition) < 2.0) { motorPID.resetCalculationValues(); }
+                if (fabs(targetPosition-currentPosition) < mtr_tolerance) { motorPID.resetCalculationValues(); }
         
                 pidOutput = doon_utils::clamp(pidOutput, -12.0, 12.0);
                 motor->spin(vex::directionType::fwd, pidOutput, vex::voltageUnits::volt);
@@ -133,7 +137,7 @@ void EnhancedMotorGroup::writeCommand(double cmd) {
                 double currentVelocity = motor->velocity(vex::velocityUnits::rpm);
                 double pidOutput = motorPID.calculate(targetVelocity-currentVelocity);
         
-                if (fabs(targetVelocity-currentVelocity) < 2.0) { motorPID.resetCalculationValues(); }
+                if (fabs(targetVelocity-currentVelocity) < mtr_tolerance) { motorPID.resetCalculationValues(); }
         
                 pidOutput = doon_utils::clamp(pidOutput, -12.0, 12.0);
                 motor->spin(vex::directionType::fwd, pidOutput, vex::voltageUnits::volt);
@@ -164,5 +168,11 @@ void EnhancedMotorGroup::setD(double kD) {
 void EnhancedMotorGroup::setGroupPIDConstants(double kP, double kI, double kD) {
     for (auto&motor : currentMotors) {
         if (motor) { motor->setMotorPIDConstants(kP, kI, kD); }
+    }
+}
+
+void EnhancedMotorGroup::setTolerance(double kTol) {
+    for (auto&motor : currentMotors) { 
+        if (motor) { motor->setTolerance(kTol); }
     }
 }

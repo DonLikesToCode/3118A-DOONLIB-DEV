@@ -7,7 +7,13 @@ PID::PID(double cmd, double tolerance, bool slew, double dt)
     , kI(0)
     , kD(0)
     , given_dt(dt)
-{}
+{
+    dt_pid.timer_startDelta();
+    dt_pid.timer_setDeltaRate(dt);
+
+    if (tolerance <= 0) { tolerance = 2; }
+}
+
 void PID::setConstants(double sentP, double sentI, double sentD) {
     kP = sentP; 
     kI = sentI; 
@@ -32,14 +38,13 @@ double PID::getD() { return kD; }
 double PID::getError() { return error; }
 
 double PID::calculate(double cmd) {
-    static Timer dt_pid("delta-time-pid");
-    dt_pid.timer_setDeltaRate(given_dt);
+    dt_pid.timer_endDelta();
+    double dt = dt_pid.timer_getDelta();
     dt_pid.timer_startDelta();
 
-    error = cmd; //kP
+    error = cmd;
 
-    double dt = dt_pid.timer_getDelta();
-    if (dt < 1e-6) { dt = 1e-6; } //0 division protection
+    if (dt < 1e-2) { dt = 1e-2; } // division by 0 protection
 
     // if (doon_utils::sign(error) != doon_utils::sign(preverror)) { 
     //     integral = 0;
@@ -55,7 +60,7 @@ double PID::calculate(double cmd) {
     integral += error * dt;
     integral = doon_utils::clamp(integral, -maxIntegral, maxIntegral);
 
-    derivative = (error-preverror) / dt; //kD
+    derivative = (error-preverror) / dt; 
 
     double cmd_pidOutput = (kP * error) + (kI * integral) + (kD * derivative);
     preverror = error;

@@ -23,7 +23,7 @@ class Timer {
 
     public:
 
-        Timer(std::string timerName);
+        Timer();
         
         /*clock timer*/
         void timer_startCount();
