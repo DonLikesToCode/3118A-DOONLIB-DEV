@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "vex.h"
+
 #include "DOONLIB/motion-utils.hpp"
 #include "DOONLIB/pid-util.h"
 
@@ -43,10 +44,10 @@ class EnhancedMotor : public vex::motor {
 
         // pid configs
 
-        void setP(double kP);
-        void setI(double kI);
-        void setD(double kD);
-    
+        // void setP(double kP);
+        // void setI(double kI);
+        // void setD(double kD);
+        
         void setMotorPIDConstants(double kP, double kI, double kD);
 
         void setTolerance(double kTol);
@@ -83,9 +84,9 @@ class EnhancedMotorGroup {
 
         // pid configs
 
-        void setP(double kP);
-        void setI(double kI);
-        void setD(double kD);
+        // void setP(double kP);
+        // void setI(double kI);
+        // void setD(double kD);
     
         void setGroupPIDConstants(double kP, double kI, double kD);
 

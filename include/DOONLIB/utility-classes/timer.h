@@ -4,7 +4,6 @@
 
 #include "vex.h"
 
-
 class Timer {
 
     private:

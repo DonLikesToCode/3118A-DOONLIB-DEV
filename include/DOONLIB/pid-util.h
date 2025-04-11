@@ -1,6 +1,8 @@
 #pragma once
 
 #include "vex.h"
+
+#include "DOONLIB/motion-utils.hpp"
 #include "DOONLIB/utility-classes/timer.h"
 
 class PID {

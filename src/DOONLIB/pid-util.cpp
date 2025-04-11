@@ -1,4 +1,4 @@
-#include "DOONLIB/central/doon_api.h"
+#include "DOONLIB/pid-util.h"
 
 PID::PID(double cmd, double tolerance, bool slew, double dt)
     : controlled_cmd(cmd)
@@ -45,17 +45,6 @@ double PID::calculate(double cmd) {
     error = cmd;
 
     if (dt < 1e-2) { dt = 1e-2; } // division by 0 protection
-
-    // if (doon_utils::sign(error) != doon_utils::sign(preverror)) { 
-    //     integral = 0;
-    //     integral += error * dt; 
-    // }
-
-    // if (fabs(integral + error * dt) < maxIntegral) { 
-    //     integral += error * dt; 
-    // } else { 
-    //     integral = maxIntegral * doon_utils::sign(integral); 
-    // }
     
     integral += error * dt;
     integral = doon_utils::clamp(integral, -maxIntegral, maxIntegral);

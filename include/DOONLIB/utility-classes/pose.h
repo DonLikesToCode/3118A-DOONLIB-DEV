@@ -1,7 +1,11 @@
 #pragma once
 
 #include <vector>
+
 #include "vex.h"
+
+#include "DOONLIB/central/doon_api.h"
+
 
 class Pose {
 

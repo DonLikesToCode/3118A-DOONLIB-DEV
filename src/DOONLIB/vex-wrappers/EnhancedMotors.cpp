@@ -1,5 +1,4 @@
 #include "DOONLIB/vex-wrappers/EnhancedMotors.h"
-
 /* Vex Motor Wrapper */
 
 EnhancedMotor::EnhancedMotor(int port_num, vex::gearSetting gearType, doonlib::MOTOR_MODES motor_mode)
@@ -59,9 +58,9 @@ void EnhancedMotor::set(double cmd) {
     }
 }
 
-void EnhancedMotor::setP(double kP) { mtr_kP = kP; }
-void EnhancedMotor::setI(double kI) { mtr_kI = kI; }
-void EnhancedMotor::setD(double kD) { mtr_kD = kD; }
+// void EnhancedMotor::setP(double kP) { mtr_kP = kP; }
+// void EnhancedMotor::setI(double kI) { mtr_kI = kI; }
+// void EnhancedMotor::setD(double kD) { mtr_kD = kD; }
 
 void EnhancedMotor::setMotorPIDConstants(double kP, double kI, double kD) {
     mtr_kP = kP;
@@ -100,7 +99,7 @@ double EnhancedMotorGroup::getEncoderPosition(bool isRadians) {
 
 void EnhancedMotorGroup::setEncoderPosition(double given) {
     for (auto& motor : currentMotors) { 
-        if (motor) { motor->setEncoderPosition(given); }
+        if (motor) { motor->setPosition(given, vex::degrees); }
     }
 }
 
@@ -147,23 +146,23 @@ void EnhancedMotorGroup::set(double cmd) {
     }
 }
 
-void EnhancedMotorGroup::setP(double kP) { 
-    for (auto& motor : currentMotors) {
-        if (motor) { motor->setP(kP); }
-    }
-}
+// void EnhancedMotorGroup::setP(double kP) { 
+//     for (auto& motor : currentMotors) {
+//         if (motor) { motor->setP(kP); }
+//     }
+// }
 
-void EnhancedMotorGroup::setI(double kI) { 
-    for (auto& motor : currentMotors) {
-        if (motor) { motor->setI(kI); }
-    }
-}
+// void EnhancedMotorGroup::setI(double kI) { 
+//     for (auto& motor : currentMotors) {
+//         if (motor) { motor->setI(kI); }
+//     }
+// }
 
-void EnhancedMotorGroup::setD(double kD) { 
-    for (auto& motor : currentMotors) {
-        if (motor) { motor->setD(kD); }
-    }
-}
+// void EnhancedMotorGroup::setD(double kD) { 
+//     for (auto& motor : currentMotors) {
+//         if (motor) { motor->setD(kD); }
+//     }
+// }
 
 void EnhancedMotorGroup::setGroupPIDConstants(double kP, double kI, double kD) {
     for (auto&motor : currentMotors) {
