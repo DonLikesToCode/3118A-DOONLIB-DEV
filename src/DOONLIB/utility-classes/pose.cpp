@@ -20,7 +20,7 @@ double Pose::pose_getTheta(bool isRadians) { return isRadians ? curPose[2] : cur
 
 void Pose::updatePose_x(double addX) { curPose[0] += addX; }
 void Pose::updatePose_y(double addY) { curPose[1] += addY; }
-void Pose::updatePose_heading(double addDeg) { (curPose[2] * M_PI / 180) + addDeg; }
+void Pose::updatePose_heading(double addDeg) { curPose[2] += addDeg; }
 
 double Pose::getDistTo(Pose& cPose) {
     //dist formula = sqrt( (x_2-x_1)^2 + (y_2-y_1)^2 )

@@ -20,6 +20,18 @@ competition Competition;
 
 void pre_auton(void) { vexcodeInit(); }
 
+/*
+
+*/
+
+DriveChassis Chassis(
+                    &LMotorGroup, 
+                    &RMotorGroup,
+                    nullptr,
+                    nullptr,
+                    nullptr
+);
+
 
 
 void Intialize() {
@@ -41,7 +53,6 @@ void Periodic() {
    * You can also probably map your inputs here, but it's good practice to 
    * have your inputs separated from your other robot functions (i.e odom).
   */
-
   
 }
 

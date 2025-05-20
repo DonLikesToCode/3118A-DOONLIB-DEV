@@ -3,14 +3,12 @@
 #include <vector>
 
 #include "vex.h"
-
-#include "DOONLIB/central/doon_api.h"
-
+#include "DOONLIB/motion-utils.hpp"
 
 class Pose {
 
     private:
-
+        // inches, inches, degrees
         double x, y, theta;
         
     public:

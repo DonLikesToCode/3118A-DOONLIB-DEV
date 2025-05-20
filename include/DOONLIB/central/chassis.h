@@ -2,7 +2,11 @@
 
 #include "vex.h"
 
-#include "DOONLIB/central/doon_api.h"
+//#include "DOONLIB/central/doon_api.h"
+#include "DOONLIB/vex-wrappers/EnhancedMotors.h"
+#include "DOONLIB/utility-classes/pose.h"
+#include "DOONLIB/motion-utils.hpp"
+
 
 class DriveChassis {
 
@@ -28,11 +32,8 @@ class DriveChassis {
         // double horizontalTrackingDiameter;
         // double verticalTrackingDiameter;
 
-        /* If only one vert tracker is given, the algorithm will assume */
-        /* a configuration of imu + horz + vert */
         vex::rotation* horzTracker;
-        vex::rotation* vertTracker1; 
-        vex::rotation* vertTracker2;
+        vex::rotation* vertTracker; 
 
         vex::inertial* inertial;
 
@@ -48,12 +49,12 @@ class DriveChassis {
             2.0, // Horiztonal Tracking Diameter [5]
         };
 
-        std::vector<double> ramsete_configs = {
-            1.0, // b term [0] --> proportional term
-            0.0, // zeta term (ζ) [1] --> derivative term
-            1.0, // v_d [2] --> can be tuning or computed path constant
-            1.0, // w_d [3] --> can be tuning or computed path constant
-        };
+        // std::vector<double> ramsete_configs = {
+        //     1.0, // b term [0] --> proportional term
+        //     0.0, // zeta term (ζ) [1] --> derivative term
+        //     1.0, // v_d [2] --> can be tuning or computed path constant
+        //     1.0, // w_d [3] --> can be tuning or computed path constant
+        // };
 
     protected:
         
@@ -65,13 +66,13 @@ class DriveChassis {
         double rightOffset{0};
         double strafeOffset{0};
 
-        double prevLeftDist{0};
-        double prevRightDist{0};
-        double prevStrafeDist{0};
-
         double leftDist{0};
         double rightDist{0};
         double strafeDist{0};
+
+        double prevLeftDist{0};
+        double prevRightDist{0};
+        double prevStrafeDist{0};
 
         double rotation{0};
 
@@ -82,11 +83,9 @@ class DriveChassis {
         DriveChassis();
 
         DriveChassis(
-                     doonlib::DRIVE_MODES mode, 
                      EnhancedMotorGroup* LeftMotors, 
                      EnhancedMotorGroup* RightMotors,
                      vex::rotation* odomPod_vert1, 
-                     vex::rotation* odomPod_vert2, 
                      vex::rotation* odomPod_horz,
                      vex::inertial* imu
         );
@@ -113,13 +112,14 @@ class DriveChassis {
              double verticalPodDiameter, 
              double strafePodDiameters
         );
-        void configureRamseteConstants(
-             double kB,
-             double kZ, 
-             double v_d,
-             double w_d
-        );
-        void setRamsetePathVelocity(double v_d, double w_d);
+
+        // void configureRamseteConstants(
+        //      double kB,
+        //      double kZ, 
+        //      double v_d,
+        //      double w_d
+        // );
+        //void setRamsetePathVelocity(double v_d, double w_d);
 
         //float, double --> 0.0, float 
 
@@ -127,8 +127,7 @@ class DriveChassis {
         double getPose_y();
         double getPose_theta(bool isRadians);
 
-        double track_arcMode();
-        double track_lineMode();
+        double updateOdometry();
 
         std::vector<double> getPose();
 
